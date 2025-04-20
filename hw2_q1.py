@@ -26,6 +26,8 @@ def english_to_morse(
     morse_code_map=str.maketrans(morse_code)
     str_to_trans=open(input_file,'r').read()
     transd_str=str_to_trans.translate(morse_code_map)
+    file_to_write=open(output_file,"w").write(transd_str)
+    print(open(file_to_write,'r').read())
     """Convert an input text file to an output Morse code file.
 
     Notes
