@@ -20,8 +20,12 @@ MORSE_CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
 
 def english_to_morse(
     input_file: str = "lorem.txt",
-    output_file: str = "lorem_morse.txt"
+    output_file: str = "lorem_morse.txt",
+    morse_code: dict=MORSE_CODE
 ):
+    morse_code_map=str.maketrans(morse_code)
+    str_to_trans=open(input_file,'r').read()
+    transd_str=str_to_trans.translate(morse_code_map)
     """Convert an input text file to an output Morse code file.
 
     Notes
