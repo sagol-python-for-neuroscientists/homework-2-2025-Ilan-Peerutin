@@ -25,9 +25,9 @@ def english_to_morse(
 ):
     morse_code_map=str.maketrans(morse_code)
     str_to_trans=open(input_file,'r').read()
-    transd_str=str_to_trans.translate(morse_code_map)
-    file_to_write=open(output_file,"w").write(transd_str)
-    print(open(file_to_write,'r').read())
+    transd_str=str_to_trans.upper().translate(morse_code_map)
+    transd_str=transd_str.replace(' ','\n')
+    file_to_write=open(output_file,"w").writelines(transd_str)
     """Convert an input text file to an output Morse code file.
 
     Notes
@@ -43,3 +43,8 @@ def english_to_morse(
         Name of output file containing the translated Morse code. Please don't change
         it since it's also hard-coded in the tests file.
     """
+
+if __name__ == '__main__':
+    # Question 1
+    return_value = english_to_morse()
+    print(f"Question 1 solution: {return_value}")
