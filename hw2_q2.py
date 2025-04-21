@@ -31,24 +31,43 @@ def meetup(agent_listing: tuple) -> list:
     """
     new_agents=[]
     agent_idx=0
+    met_bool=1
     while agent_idx<len(agent_listing):
-        if(agent_listing[agent_idx][1].name==("Healthy" or "Dead")):
-           new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]))
+        first_agent=agent_listing[agent_idx]
+        if met_bool==0:
+            new_agents.append(Agent(first_agent[0],first_agent[1]))
+            agent_idx+=1
+            continue
+        if(first_agent[1].name=="HEALTHY" or first_agent[1].name=="DEAD"):
+           new_agents.append(Agent(first_agent[0],first_agent[1]))
            agent_idx+=1
            continue
         meeting_idx=agent_idx+1
         while meeting_idx<len(agent_listing):
-            if(agent_listing[meeting_idx][1].name==("Healthy" or "Dead")):
-                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]))
+            second_agent=agent_listing[meeting_idx]
+            if(second_agent[1].name=="HEALTHY" or second_agent[1].name=="DEAD"):
+                new_agents.append(Agent(second_agent[0],second_agent[1]))
                 meeting_idx+=1
+                met_bool=0
                 continue
-            elif(agent_listing[agent_idx][1].name==("Cure")):
-                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]-1))
-            elif(agent_listing[meeting_idx][1].name==("Cure")):
-                new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]-1))
+            elif(first_agent[1].name==("CURE") and second_agent[1].name==("CURE")):
+                new_agents.append(Agent(second_agent[0],second_agent[1]))
+                new_agents.append(Agent(first_agent[0],first_agent[1]))
+            elif(first_agent[1].name==("CURE")):
+                new_agents.append(Agent(second_agent[0],second_agent[1].value-1))
+                new_agents.append(Agent(first_agent[0],first_agent[1]))
+            elif(second_agent[1].name==("CURE")):
+                new_agents.append(Agent(first_agent[0],first_agent[1].value-1))
+                new_agents.append(Agent(second_agent[0],second_agent[1]))
             else:
-                new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]+1))
-                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]+1))
-            agent_idx+=1
+                new_agents.append(Agent(first_agent[0],first_agent[1].value+1))
+                new_agents.append(Agent(second_agent[0],second_agent[1].value+1))
+            agent_idx=meeting_idx+1
+            met_bool=1
             break
     return new_agents
+if __name__ == '__main__':
+    # Question 2
+    param1 = val1
+    return_value = meetup(param1)
+    print(f"Question 2 solution: {return_value}")
