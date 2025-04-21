@@ -29,3 +29,26 @@ def meetup(agent_listing: tuple) -> list:
         A list of Agents with their 'category' field changed according to the result
         of the meeting.
     """
+    new_agents=[]
+    agent_idx=0
+    while agent_idx<len(agent_listing):
+        if(agent_listing[agent_idx][1].name==("Healthy" or "Dead")):
+           new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]))
+           agent_idx+=1
+           continue
+        meeting_idx=agent_idx+1
+        while meeting_idx<len(agent_listing):
+            if(agent_listing[meeting_idx][1].name==("Healthy" or "Dead")):
+                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]))
+                meeting_idx+=1
+                continue
+            elif(agent_listing[agent_idx][1].name==("Cure")):
+                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]-1))
+            elif(agent_listing[meeting_idx][1].name==("Cure")):
+                new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]-1))
+            else:
+                new_agents.append(Agent(agent_listing[agent_idx][0],agent_listing[agent_idx][1]+1))
+                new_agents.append(Agent(agent_listing[meeting_idx][0],agent_listing[meeting_idx][1]+1))
+            agent_idx+=1
+            break
+    return new_agents
