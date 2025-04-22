@@ -34,37 +34,42 @@ def meetup(agent_listing: tuple) -> list:
     met_bool=1
     while agent_idx<len(agent_listing):
         first_agent=agent_listing[agent_idx]
+        if agent_idx==len(agent_listing)-1:
+            new_agents.append(Agent(first_agent[0],Condition(first_agent[1])))
+            break
         if met_bool==0:
-            new_agents.append(Agent(first_agent[0],first_agent[1]))
+            new_agents.append(Agent(first_agent[0],Condition(first_agent[1])))
             agent_idx+=1
+            met_bool=1
             continue
         if(first_agent[1].name=="HEALTHY" or first_agent[1].name=="DEAD"):
-           new_agents.append(Agent(first_agent[0],first_agent[1]))
+           new_agents.append(Agent(first_agent[0],Condition(first_agent[1])))
            agent_idx+=1
            continue
         meeting_idx=agent_idx+1
         while meeting_idx<len(agent_listing):
             second_agent=agent_listing[meeting_idx]
             if(second_agent[1].name=="HEALTHY" or second_agent[1].name=="DEAD"):
-                new_agents.append(Agent(second_agent[0],second_agent[1]))
+                new_agents.append(Agent(second_agent[0],Condition(second_agent[1])))
                 meeting_idx+=1
                 met_bool=0
                 continue
             elif(first_agent[1].name==("CURE") and second_agent[1].name==("CURE")):
-                new_agents.append(Agent(second_agent[0],second_agent[1]))
-                new_agents.append(Agent(first_agent[0],first_agent[1]))
+                new_agents.append(Agent(second_agent[0],Condition(second_agent[1])))
+                new_agents.append(Agent(first_agent[0],Condition(first_agent[1])))
             elif(first_agent[1].name==("CURE")):
-                new_agents.append(Agent(second_agent[0],second_agent[1].value-1))
-                new_agents.append(Agent(first_agent[0],first_agent[1]))
+                new_agents.append(Agent(second_agent[0],Condition(second_agent[1].value-1)))
+                new_agents.append(Agent(first_agent[0],Condition(first_agent[1])))
             elif(second_agent[1].name==("CURE")):
-                new_agents.append(Agent(first_agent[0],first_agent[1].value-1))
-                new_agents.append(Agent(second_agent[0],second_agent[1]))
+                new_agents.append(Agent(first_agent[0],Condition(first_agent[1].value-1)))
+                new_agents.append(Agent(second_agent[0],Condition(second_agent[1])))
             else:
-                new_agents.append(Agent(first_agent[0],first_agent[1].value+1))
-                new_agents.append(Agent(second_agent[0],second_agent[1].value+1))
+                new_agents.append(Agent(first_agent[0],Condition(first_agent[1].value+1)))
+                new_agents.append(Agent(second_agent[0],Condition(second_agent[1].value+1)))
             agent_idx=meeting_idx+1
             met_bool=1
             break
+    new_agents=list(set(new_agents))
     return new_agents
 if __name__ == '__main__':
     # Question 2
